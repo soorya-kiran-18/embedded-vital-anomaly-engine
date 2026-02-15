@@ -30,7 +30,7 @@ model = Sequential([
     Dense(16, activation='relu'),
     Dropout(0.3),
 
-    Dense(1, activation='sigmoid')  # Binary classification
+    Dense(1, activation='sigmoid')
 ])
 
 # -----------------------------
@@ -63,12 +63,42 @@ history = model.fit(
 )
 
 # -----------------------------
+# PLOT LOSS CURVE (FILE-ONLY BACKEND)
+# -----------------------------
+import matplotlib
+matplotlib.use('Agg')  # Disable GUI backend
+import matplotlib.pyplot as plt
+
+print("Plotting loss curve...")
+
+plt.figure(figsize=(8,5))
+
+epochs = range(1, len(history.history['loss']) + 1)
+
+plt.plot(epochs, history.history['loss'], label='train_loss')
+plt.plot(epochs, history.history['val_loss'], label='val_loss')
+
+plt.xlabel("Epoch")
+plt.ylabel("Loss")
+plt.title("Convergence (Loss Curves)")
+plt.legend()
+plt.grid()
+
+plt.tight_layout()
+plt.savefig("loss_curve.png", dpi=300)
+
+print("Loss curve saved as loss_curve.png")
+
+# -----------------------------
 # EVALUATE ON TEST SET
 # -----------------------------
 test_loss, test_acc = model.evaluate(X_test, y_test, verbose=0)
+print(f"Test Loss: {test_loss:.4f}")
 print(f"Test Accuracy: {test_acc:.4f}")
 
 # -----------------------------
 # SAVE MODEL
 # -----------------------------
 model.save("apnea_detector_model.keras")
+
+print("Model saved as apnea_detector_model.keras")
