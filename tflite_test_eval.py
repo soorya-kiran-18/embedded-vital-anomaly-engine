@@ -4,7 +4,7 @@ import tensorflow as tf
 X_test = np.load("X_test.npy")
 y_test = np.load("y_test.npy")
 
-interpreter = tf.lite.Interpreter(model_path="apnea_detector_model.tflite")
+interpreter = tf.lite.Interpreter(model_path="models/apnea_detector_model.tflite")
 interpreter.allocate_tensors()
 
 input_details = interpreter.get_input_details()
